@@ -1,0 +1,39 @@
+
+Links
+--------------
+https://seanmcgary.com/posts/how-to-deploy-an-aws-lambda-with-terraform/
+https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-awscli.html
+
+
+
+
+Steps to Build
+====================
+
+# Create ZIP File
+zip -r function.zip index.js
+
+# Terraform init
+terraform init
+
+# Create Plan
+terraform plan
+
+# Apply Plan
+terraform apply
+
+# Check if Created
+aws lambda list-functions | findstr FunctionName
+
+# Centos
+# Gitbash
+aws lambda invoke --function-name demo_lambda out --invocation-type=RequestResponse --payload='{"test":"fred"}' --log-type=Tail --query 'LogResult' --output text | base64 -d
+
+
+# Invoke lambda
+aws lambda invoke \
+    --function-name=demo_lambda \
+    --invocation-type=RequestResponse \
+    --payload='{ "test": "value" }' \
+    --log-type=Tail \
+    /dev/null | jq -r '.LogResult' | base64 --decode
